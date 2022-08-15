@@ -12,7 +12,9 @@ function BaiTapToDoListSaGa() {
     const [errors, setErrors] = useState({taskName: ''});
 
     const getTaskList = () => {
-        dispatch(getTaskListApi());
+        dispatch({
+            type: 'getTaskApiAction'
+        });
     }
 
     useEffect(() => {
@@ -36,8 +38,8 @@ function BaiTapToDoListSaGa() {
         setErrors(newErrors);
     }
 
-    const addTask = (event) => {
-        event.preventDefault();
+    const addTask = () => {
+        
     }
 
     const delTask = (taskNameCurrent) => {
@@ -53,8 +55,9 @@ function BaiTapToDoListSaGa() {
     }
 
     return ( 
-        <form>
+        <div>
             <div className="card">
+                <button className='btn btn-success' onClick={getTaskList}>Dispatch action saga getTaskApi</button>
                 <div className="card__header">
                     <img src="./assets/images/bg.png" />
                 </div>
@@ -111,7 +114,7 @@ function BaiTapToDoListSaGa() {
                     </div>
                 </div>
             </div>
-        </form>
+        </div>
      );
 }
 
