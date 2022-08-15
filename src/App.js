@@ -9,6 +9,7 @@ import Detail from './pages/Detail/Detail';
 import PageNotFound from './pages/PageNotFound/PageNotFound';
 import Profile from './pages/Profile/Profile';
 import ToDoList from './pages/ToDoList/ToDoList';
+import BaiTapToDoListSaGa from './pages/BTToDoListSaGa/BTToDoListSaGa';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Route path='/login' element={<Login/>}/>
         <Route path='/profile' element={<Profile/>}/>
         <Route path='/toDoList' element={<ToDoList/>}/>
+        <Route path='/todolistsaga' element={<BaiTapToDoListSaGa/>}/>
         <Route path='/detail/:id' element={<Detail/>}/>
         <Route path='/' element={<Home/>}/>
         <Route path='*' element={<PageNotFound/>}/>
