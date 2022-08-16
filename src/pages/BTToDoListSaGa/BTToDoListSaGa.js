@@ -1,7 +1,6 @@
-import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { addTaskApi, checkTaskApi, delTaskApi, getTaskListApi, rejectTaskApi } from '../../redux/actions/ToDoListAction';
+import { ADD_TASK_API, CHECK_TASK_API, DELETE_TASK_API, GET_TASKLIST_API, REJECT_TASK_API } from '../../redux/constants/ToDoListConst';
 import './BTToDoListSaGa.css';
 
 function BaiTapToDoListSaGa() {
@@ -13,7 +12,7 @@ function BaiTapToDoListSaGa() {
 
     const getTaskList = () => {
         dispatch({
-            type: 'getTaskApiAction'
+            type: GET_TASKLIST_API
         });
     }
 
@@ -39,19 +38,32 @@ function BaiTapToDoListSaGa() {
     }
 
     const addTask = () => {
-        
+        dispatch({
+            type: ADD_TASK_API,
+            taskName: values.taskName
+        });
+        setValues(state => ({...state, taskName: ''}));
     }
 
     const delTask = (taskNameCurrent) => {
-        
+        dispatch({
+            type: DELETE_TASK_API,
+            taskName: taskNameCurrent
+        })
     }
 
     const checkTask = (taskNameEdit) => {
-        
+        dispatch({
+            type: CHECK_TASK_API,
+            taskName: taskNameEdit
+        })
     }
 
     const rejectTask = (taskNameReject) => {
-        
+        dispatch({
+            type: REJECT_TASK_API,
+            taskName: taskNameReject
+        })
     }
 
     return ( 

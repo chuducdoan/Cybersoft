@@ -10,11 +10,13 @@ import PageNotFound from './pages/PageNotFound/PageNotFound';
 import Profile from './pages/Profile/Profile';
 import ToDoList from './pages/ToDoList/ToDoList';
 import BaiTapToDoListSaGa from './pages/BTToDoListSaGa/BTToDoListSaGa';
+import LoadingComponent from './components/GlobalSetting/LoadingComponent/LoadingComponent';
 
 function App() {
   return (
     <BrowserRouter>
       <Header/>
+      <LoadingComponent/>
       <Routes>
         <Route exact path='/home' element={<Home/>}/>
         <Route path='/contact' element={<Contact/>}/>
