@@ -30,6 +30,9 @@ function Header() {
                         <li className="nav-item">
                             <NavLink className="nav-link" to="/todolistsaga">ToDoLisSaGa</NavLink>
                         </li>
+                        <li className="nav-item">
+                            <NavLink className="nav-link" to="/demohocmodal">demohocmodal</NavLink>
+                        </li>
                     </ul>
                     <form className="d-flex">
                         <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>

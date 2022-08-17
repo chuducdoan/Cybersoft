@@ -11,11 +11,14 @@ import Profile from './pages/Profile/Profile';
 import ToDoList from './pages/ToDoList/ToDoList';
 import BaiTapToDoListSaGa from './pages/BTToDoListSaGa/BTToDoListSaGa';
 import LoadingComponent from './components/GlobalSetting/LoadingComponent/LoadingComponent';
+import DemoHOCModal from './pages/DemoHOCModal/DemoHOCModal';
+import Modal from './HOC/Modal/Modal';
 
 function App() {
   return (
     <BrowserRouter>
       <Header/>
+      <Modal/>
       <LoadingComponent/>
       <Routes>
         <Route exact path='/home' element={<Home/>}/>
@@ -27,6 +30,7 @@ function App() {
         <Route path='/todolistsaga' element={<BaiTapToDoListSaGa/>}/>
         <Route path='/detail/:id' element={<Detail/>}/>
         <Route path='/' element={<Home/>}/>
+        <Route path='/demohocmodal' element={<DemoHOCModal/>}/>
         <Route path='*' element={<PageNotFound/>}/>
       </Routes>
     </BrowserRouter>

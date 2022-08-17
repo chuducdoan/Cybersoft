@@ -4,12 +4,14 @@ import reduxThunk from 'redux-thunk';
 import { rootSaga } from "./sagas/rootSaga";
 import createMiddleWareSage from 'redux-saga';
 import LoadingReducer from './reducers/LoadingReducer';
+import ModalReducer from './reducers/ModalReducer';
 
 const middleWareSaga = createMiddleWareSage();
 
 const rootReducer = combineReducers({
     ToDoListReducer,
-    LoadingReducer
+    LoadingReducer,
+    ModalReducer
 });
 
 const store = createStore(rootReducer, applyMiddleware(reduxThunk, middleWareSaga));
