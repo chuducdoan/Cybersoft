@@ -17,7 +17,6 @@ import Modal from './HOC/Modal/Modal';
 function App() {
   return (
     <BrowserRouter>
-      <Header/>
       <Modal/>
       <LoadingComponent/>
       <Routes>
