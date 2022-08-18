@@ -13,6 +13,7 @@ import BaiTapToDoListSaGa from './pages/BTToDoListSaGa/BTToDoListSaGa';
 import LoadingComponent from './components/GlobalSetting/LoadingComponent/LoadingComponent';
 import DemoHOCModal from './pages/DemoHOCModal/DemoHOCModal';
 import Modal from './HOC/Modal/Modal';
+import LoginCyberBugs from './pages/CyberBugs/LoginCyberBugs/LoginCyberBugs';
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
         <Route path='/' element={<Home/>}/>
         <Route path='/demohocmodal' element={<DemoHOCModal/>}/>
         <Route path='*' element={<PageNotFound/>}/>
+        <Route path='/logincyberbugs' element={<LoginCyberBugs/>}/>
       </Routes>
     </BrowserRouter>
   );

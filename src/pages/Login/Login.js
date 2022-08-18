@@ -1,5 +1,10 @@
+import { Button } from "antd";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Layout } from 'antd';
+import React from 'react';
+
+const { Header, Footer, Sider, Content } = Layout;
 
 function Login() {
 
@@ -23,20 +28,33 @@ function Login() {
     }
 
     return ( 
-        <form className="container" onSubmit={handleLogin}>
-            <h3 className="display-4">Login</h3>
-            <div className="form-group">
-                <p>Username</p>
-                <input name="userName" className="form-control" onChange={handleChange}/>
-            </div>
-            <div className="form-group">
-                <p>Password</p>
-                <input name="password" className="form-control" onChange={handleChange}/>
-            </div>
-            <div className="form-group">
-                <button className="btn btn-success">Dang nhap</button>
-            </div>
-        </form>
+        <>
+            <Layout>
+                <Sider style={
+                    {height: window.innerHeight, 
+                    backgroundImage: 'url(https://picsum.photos/500)',
+                    }} width={window.innerWidth/2}>
+                    abc
+                </Sider>
+                <Content>
+                    <form className="container" onSubmit={handleLogin}>
+                        <Button type="primary">testr</Button>
+                        <h3 className="display-4">Login</h3>
+                        <div className="form-group">
+                            <p>Username</p>
+                            <input name="userName" className="form-control" onChange={handleChange}/>
+                        </div>
+                        <div className="form-group">
+                            <p>Password</p>
+                            <input name="password" className="form-control" onChange={handleChange}/>
+                        </div>
+                        <div className="form-group">
+                            <button className="btn btn-success">Dang nhap</button>
+                        </div>
+                    </form>
+                </Content>
+            </Layout>
+        </>
     );
 }
 
