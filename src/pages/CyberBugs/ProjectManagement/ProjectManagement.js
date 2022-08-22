@@ -5,11 +5,12 @@ import Highlighter from 'react-highlight-words';
 import HtmlReactParser from 'html-react-parser';
 import { useSelector, useDispatch } from 'react-redux';
 import { DELETE_PROJECT_SAGA, EDIT_PROJECT, GET_ALL_PROJECT_SAGA } from '../../../redux/constants/Cyberbugs/CyberbugsConst';
-import { OPEN_DRAWER } from './../../../redux/constants/Cyberbugs/CyberbugsConst';
+import { OPEN_DRAWER, GET_USER_SAGA } from './../../../redux/constants/Cyberbugs/CyberbugsConst';
 import FormEditProject from '../../../components/Forms/FormEditProject/FormEditProject';
 
 function ProjectManagement() {
     const projectList = useSelector(state => state.ProjectReducer.projectList);
+    const userSearch = useSelector(state => state.UserCyberBugReducer.userSearch);
     const [searchText, setSearchText] = useState('');
     const [searchedColumn, setSearchedColumn] = useState('');
     const searchInput = useRef(null);
@@ -199,18 +200,30 @@ function ProjectManagement() {
           key: 'member',
           width: '20%',
           render: (text, record, index) => {
-            console.log(record)
             return <div>
-              {record.members?.slice(0,2).map((value) => {
-              return  <Avatar src={<Image src={value.avatar} style={{ width: 32 }} />} />
+              {record.members?.slice(0,2).map((value, index) => {
+              return  <Avatar key={index} src={<Image src={value.avatar} style={{ width: 32 }} />} />
               })}
 
               {record.members?.length > 2 ? <Avatar>...</Avatar> : ''}
               
               <Popover placement='topLeft' title={"Them thanh vien"} content={() => {
-                return <AutoComplete style={{width: '100%'}} onSearch={(value) => {
-                  console.log(value)
-                }}/>
+                return <AutoComplete 
+                style={{width: '100%'}} 
+                options={ userSearch?.map((user, index) => {
+                  return {label: user.name, value: user.userId}
+                })}
+                onSearch={(value) => {
+                  dispatch({
+                    type: GET_USER_SAGA,
+                    keyword: value
+                  })
+                }} 
+                onSelect={(value, option) => {
+                  console.log('userId', value)
+                  console.log('option', option)
+                }}
+                />
               }} trigger="click">
                 <Button type="primary" shape="circle">+</Button>
               </Popover>

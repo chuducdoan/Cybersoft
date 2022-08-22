@@ -14,5 +14,9 @@ export const SET_SUBMIT_EDIT = 'SET_SUBMIT_EDIT';
 
 export const EDIT_PROJECT = 'EDIT_PROJECT';
 
+//-------------------User------------
+export const GET_USER_SAGA = 'GET_USER_SAGA';
+export const GET_USER_SEARCH = 'GET_USER_SEARCH';
+
 //-------------------login-------------
 export const USLOGIN = 'USLOGIN';

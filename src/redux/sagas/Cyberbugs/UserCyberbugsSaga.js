@@ -1,9 +1,10 @@
 import { call, delay, put, takeLatest, select } from 'redux-saga/effects';
-import { USER_SIGNIN_API, USLOGIN } from './../../constants/Cyberbugs/CyberbugsConst';
+import { GET_USER_SAGA, GET_USER_SEARCH, USER_SIGNIN_API, USLOGIN } from './../../constants/Cyberbugs/CyberbugsConst';
 import cyberbugsService from './../../../services/CyberbugsService';
 import { DISPLAY_LOADING, HIDE_LOADING } from './../../constants/LoadingConst';
 import { TOKEN, USER_LOGIN } from '../../../util/constants/settingSystem';
-import {push} from 'react-router-redux';
+import userService from './../../../services/UserService';
+import { STATUS_CODE } from './../../../util/constants/settingSystem';
 
 // Quan ly cac action saga
 function * signinSaga(action) {
@@ -35,4 +36,24 @@ function * signinSaga(action) {
 
 export function * theoDoiSignin() {
     yield takeLatest(USER_SIGNIN_API, signinSaga);
+}
+
+// Saga lay user tu api
+// DoanCD - code ngay 22/8/2022
+function * getUserSaga(action) {
+    try {
+        const {data, status} = yield call(() => userService.getUser(action.keyword));
+        if(status === STATUS_CODE.SUCCESS) {
+            yield put({
+                type: GET_USER_SEARCH,
+                lstUserSearch: data.content
+            })
+        }
+    } catch(err) {
+        console.log(err);
+    }
+}
+
+export function * theoDoiGetUserSaga() {
+    yield takeLatest(GET_USER_SAGA, getUserSaga);
 }

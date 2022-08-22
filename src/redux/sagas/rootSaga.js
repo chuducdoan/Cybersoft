@@ -25,6 +25,7 @@ export function * rootSaga() {
         ToDoListSaga.theodoiActionCheckDoneTaskApi(),
         ToDoListSaga.theoDoiActionRejectTaskApi(),
         Cyberbus.theoDoiSignin(),
+        Cyberbus.theoDoiGetUserSaga(),
         CreateProjectSaga.theoDoiGetAllProjectCategory(),
         ProjectSaga.theoDoiCreateProjectSaga(),
         ProjectSaga.theoDoiGetAllProjectSaga(),
