@@ -28,7 +28,8 @@ export function * rootSaga() {
         CreateProjectSaga.theoDoiGetAllProjectCategory(),
         ProjectSaga.theoDoiCreateProjectSaga(),
         ProjectSaga.theoDoiGetAllProjectSaga(),
-        ProjectSaga.theoDoiUpdateProjectSaga()
+        ProjectSaga.theoDoiUpdateProjectSaga(),
+        ProjectSaga.theoDoiDeleteProjectSaga()
     ])
 
 }

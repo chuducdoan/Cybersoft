@@ -1,9 +1,10 @@
 import axios from "axios"
 import { DOMAIN_CYBERBUG, TOKEN } from './../util/constants/settingSystem';
+import { baseService } from "./baseService";
 
-class CyberbugsService {
+class CyberbugsService extends baseService {
     constructor() {
-
+        super();
     }
 
     signinCyberBugs = (userLogin) => {
@@ -42,9 +43,7 @@ class CyberbugsService {
         return axios({
             url: `${DOMAIN_CYBERBUG}/Project/getAllProject`,
             method: 'GET',
-            headers: {
-                'Authorization': 'Bearer ' + localStorage.getItem(TOKEN),
-            }
+            headers: {'Authorization': 'Bearer ' + localStorage.getItem(TOKEN)}
         })
     }
 
@@ -55,6 +54,10 @@ class CyberbugsService {
             data: projectUpdate,
             headers: {'Authorization': 'Bearer ' + localStorage.getItem(TOKEN)}
         })
+    }
+
+    deleteProject = (id) => {
+        return this.delete(`/Project/deleteProject?projectId=${id}`);
     }
 }
 

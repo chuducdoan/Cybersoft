@@ -10,6 +10,7 @@ import UserCyberBugReducer from './reducers/UserCyberBugReducer';
 import ProjectCategoryReducer from './reducers/ProjectCategoryReducer';
 import ProjectReducer from './reducers/ProjectReducer';
 import DrawerCyberbugReducer from './reducers/DrawerCyberbugReducer';
+import NotificationReducer from './reducers/NotificationReducer';
 
 const middleWareSaga = createMiddleWareSage();
 
@@ -21,7 +22,8 @@ const rootReducer = combineReducers({
     UserCyberBugReducer,
     ProjectCategoryReducer,
     ProjectReducer,
-    DrawerCyberbugReducer
+    DrawerCyberbugReducer,
+    NotificationReducer
 });
 
 const store = createStore(rootReducer, applyMiddleware(reduxThunk, middleWareSaga));

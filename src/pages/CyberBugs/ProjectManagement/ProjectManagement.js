@@ -1,10 +1,10 @@
-import { Button, Input, Space, Table, Tag } from 'antd';
+import { Button, Input, Space, Table, Tag, AutoComplete, Popover, Popconfirm, Avatar, Image } from 'antd';
 import { useRef, useState, useEffect } from 'react';
 import { SearchOutlined,DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import Highlighter from 'react-highlight-words';
 import HtmlReactParser from 'html-react-parser';
 import { useSelector, useDispatch } from 'react-redux';
-import { EDIT_PROJECT, GET_ALL_PROJECT_SAGA } from '../../../redux/constants/Cyberbugs/CyberbugsConst';
+import { DELETE_PROJECT_SAGA, EDIT_PROJECT, GET_ALL_PROJECT_SAGA } from '../../../redux/constants/Cyberbugs/CyberbugsConst';
 import { OPEN_DRAWER } from './../../../redux/constants/Cyberbugs/CyberbugsConst';
 import FormEditProject from '../../../components/Forms/FormEditProject/FormEditProject';
 
@@ -21,11 +21,11 @@ function ProjectManagement() {
         })
     }, []);
 
-    const handleEdit = () => {
-      dispatch({
-        type: OPEN_DRAWER
-      })
-    }
+    // const handleEdit = () => {
+    //   dispatch({
+    //     type: OPEN_DRAWER
+    //   })
+    // }
 
     const handleSearch = (selectedKeys, confirm, dataIndex) => {
         confirm();
@@ -128,7 +128,7 @@ function ProjectManagement() {
           title: 'id',
           dataIndex: 'id',
           key: 'id',
-          width: '30%',
+          width: '10%',
           ...getColumnSearchProps('id'),
           sorter: (item1, item2) => {
             return item1.id - item2.id;
@@ -194,26 +194,58 @@ function ProjectManagement() {
             }
         },
         {
+          title: 'Member',
+          dataIndex: 'member',
+          key: 'member',
+          width: '20%',
+          render: (text, record, index) => {
+            console.log(record)
+            return <div>
+              {record.members?.slice(0,2).map((value) => {
+              return  <Avatar src={<Image src={value.avatar} style={{ width: 32 }} />} />
+              })}
+
+              {record.members?.length > 2 ? <Avatar>...</Avatar> : ''}
+              
+              <Popover placement='topLeft' title={"Them thanh vien"} content={() => {
+                return <AutoComplete style={{width: '100%'}} onSearch={(value) => {
+                  console.log(value)
+                }}/>
+              }} trigger="click">
+                <Button type="primary" shape="circle">+</Button>
+              </Popover>
+            </div>
+          }
+        },
+        {
             title: "Action",
-            dataIndex: '',
+            dataIndex: 'action',
             key: "action",
             render: (text, record, index) => {
               return (
-                <Space size="middle">
-                <button className='btn mr-2 btn-primary' onClick={() => {
-                  dispatch({
-                    type: OPEN_DRAWER,
-                    Component: <FormEditProject/>
-                  })
-                  dispatch({
-                    type: EDIT_PROJECT,
-                    projectEditModel: record
-                  })
-                }}><EditOutlined/></button>
-                <button className='btn btn-danger'><DeleteOutlined/></button>
-                </Space>
-            )
-            }
+                <div key={index}>
+                  <button className='btn mr-2 btn-primary' onClick={() => {
+                    dispatch({
+                      type: OPEN_DRAWER,
+                      Component: <FormEditProject/>
+                    })
+                    dispatch({
+                      type: EDIT_PROJECT,
+                      projectEditModel: record
+                    })
+                  }}><EditOutlined/></button>
+                  <Popconfirm placement="top" title={"Are you sure to delete this task?"} onConfirm={() => {
+                    dispatch({
+                      type: DELETE_PROJECT_SAGA,
+                      projectId: record.id
+                    })
+                  }} okText="Yes" cancelText="No">
+                    <Button className='btn btn-danger' type='button'><DeleteOutlined/></Button>
+                  </Popconfirm>
+                </div>
+              )
+            },
+      
         }
     ];
     

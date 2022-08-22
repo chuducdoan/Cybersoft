@@ -1,8 +1,9 @@
 import { call, put, takeLatest, delay, select } from 'redux-saga/effects';
 import cyberbugsService from '../../../services/CyberbugsService';
 import { STATUS_CODE } from '../../../util/constants/settingSystem';
-import { CREATE_PROJECT_SAGA, GET_ALL_PROJECT_SAGA, UPDATE_PROJECT_SAGA } from '../../constants/Cyberbugs/CyberbugsConst';
+import { CREATE_PROJECT_SAGA, DELETE_PROJECT_SAGA, GET_ALL_PROJECT_SAGA, UPDATE_PROJECT_SAGA } from '../../constants/Cyberbugs/CyberbugsConst';
 import { DISPLAY_LOADING, HIDE_LOADING } from './../../constants/LoadingConst';
+import { openNotificationWithIcon } from './../../../util/Notification/NotificationCyberbugs';
 
 function * createProjectSaga(action) {
     yield put({
@@ -71,3 +72,33 @@ export function * theoDoiUpdateProjectSaga() {
     yield takeLatest(UPDATE_PROJECT_SAGA, updateProjectSaga);
 }
 
+// Saga dung de xoa project tu api
+// DoanCD = Code ngay 22/08/2022
+function * deleteProjectSaga(action) {
+    yield put({
+        type: DISPLAY_LOADING
+    })
+    yield delay(500);
+
+    try {
+        const {data, status} = yield call(() => cyberbugsService.deleteProject(action.projectId));
+        if (status === STATUS_CODE.SUCCESS) {
+            openNotificationWithIcon('success', 'Delete project successfuly!');
+        } else {
+            openNotificationWithIcon('error', 'Delete project fail!');
+        } 
+        yield put({
+            type: GET_ALL_PROJECT_SAGA
+        })
+    } catch(err) {
+        console.log(err);
+    }
+
+    yield put({
+        type: HIDE_LOADING
+    })
+}
+
+export function * theoDoiDeleteProjectSaga() {
+    yield takeLatest(DELETE_PROJECT_SAGA, deleteProjectSaga);
+}

@@ -1,7 +1,10 @@
 import { EDIT_PROJECT } from "../constants/Cyberbugs/CyberbugsConst";
 
 const stateDefault = {
-    projectList: [],
+    projectList: [
+        {"id": 0, "projectName": "tring", "creator": 0, "description": "string", "categoryId": "2"},
+        {"id": 1, "projectName": "tring1", "creator": 0, "description": "string1", "categoryId": "2"}
+    ],
     projectEdit: {"id": 0, "projectName": "tring", "creator": 0, "description": "string", "categoryId": "2"}
 }
 
