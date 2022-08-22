@@ -5,6 +5,9 @@ Loai 2: action => function (thuong dung de xu ly api hoac goi cac action khac)
 */
 import { all } from 'redux-saga/effects';
 import * as ToDoListSaga from './ToDoListSaga';
+import * as Cyberbus from './Cyberbugs/UserCyberbugsSaga';
+import * as CreateProjectSaga from './Cyberbugs/ProjectCategorySaga';
+import * as ProjectSaga from './Cyberbugs/ProjectSaga';
 
 export function * rootSaga() {
     // cach 1 - cu:
@@ -20,7 +23,12 @@ export function * rootSaga() {
         ToDoListSaga.theoDoiActionAddTaskApi(),
         ToDoListSaga.theoDoiActionDeleteTaskApi(),
         ToDoListSaga.theodoiActionCheckDoneTaskApi(),
-        ToDoListSaga.theoDoiActionRejectTaskApi()
+        ToDoListSaga.theoDoiActionRejectTaskApi(),
+        Cyberbus.theoDoiSignin(),
+        CreateProjectSaga.theoDoiGetAllProjectCategory(),
+        ProjectSaga.theoDoiCreateProjectSaga(),
+        ProjectSaga.theoDoiGetAllProjectSaga(),
+        ProjectSaga.theoDoiUpdateProjectSaga()
     ])
 
 }

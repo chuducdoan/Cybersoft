@@ -1,8 +1,13 @@
+import { useSelector } from 'react-redux';
+
 function Home(props) {
-    console.log(props)
+    
+    const userLogin = useSelector(state => state.UserCyberBugReducer.userLogin);
+    console.log(userLogin)
+
     return ( 
         <div>
-            Home
+            {userLogin.email}
         </div>
      );
 }
