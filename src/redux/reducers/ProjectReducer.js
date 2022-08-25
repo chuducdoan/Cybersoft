@@ -1,11 +1,12 @@
-import { EDIT_PROJECT } from "../constants/Cyberbugs/CyberbugsConst";
+import { EDIT_PROJECT, GET_ALL_PRIORITY, GET_ALL_TASK_TYPE, GET_PROJECT_DETAIL } from "../constants/Cyberbugs/CyberbugsConst";
 
 const stateDefault = {
     projectList: [
-        {"id": 0, "projectName": "tring", "creator": 0, "description": "string", "categoryId": "2"},
-        {"id": 1, "projectName": "tring1", "creator": 0, "description": "string1", "categoryId": "2"}
     ],
-    projectEdit: {"id": 0, "projectName": "tring", "creator": 0, "description": "string", "categoryId": "2"}
+    projectEdit: {"id": 0, "projectName": "tring", "creator": 0, "description": "string", "categoryId": "2"},
+    projectDetail: {},
+    arrTaskType: [],
+    arrPriority: []
 }
 
 const ProjectReducer = (state = stateDefault, action) => {
@@ -17,6 +18,18 @@ const ProjectReducer = (state = stateDefault, action) => {
         case EDIT_PROJECT: {
             state.projectEdit = action.projectEditModel;
             console.log("ab", action.projectEditModel)
+            return {...state};
+        }
+        case GET_PROJECT_DETAIL: {
+            state.projectDetail = action.projectDetail;
+            return {...state};
+        }
+        case GET_ALL_TASK_TYPE: {
+            state.arrTaskType = action.arrTaskType;
+            return {...state};
+        }
+        case GET_ALL_PRIORITY: {
+            state.arrPriority = action.arrPriority;
             return {...state};
         }
         default: 

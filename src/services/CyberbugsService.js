@@ -57,7 +57,23 @@ class CyberbugsService extends baseService {
     }
 
     deleteProject = (id) => {
-        return this.delete(`/Project/deleteProject?projectId=${id}`);
+        return this.delete(`Project/deleteProject?projectId=${id}`);
+    }
+
+    deleteUserFromProject = (userProject) => {
+        return this.post(`Project/removeUserFromProject`, userProject);
+    }
+
+    getProjectDetail = (projectId) => {
+        return this.get(`Project/getProjectDetail?id=${projectId}`);
+    }
+
+    getAllTaskType = () => {
+        return this.get('TaskType/getAll');
+    }
+
+    getAllPriority = () => {
+        return this.get('Priority/getAll');
     }
 }
 

@@ -1,9 +1,9 @@
 import { call, put, takeLatest, delay, select } from 'redux-saga/effects';
-import cyberbugsService from '../../../services/CyberbugsService';
 import { STATUS_CODE } from '../../../util/constants/settingSystem';
-import { CREATE_PROJECT_SAGA, DELETE_PROJECT_SAGA, GET_ALL_PROJECT_SAGA, UPDATE_PROJECT_SAGA } from '../../constants/Cyberbugs/CyberbugsConst';
+import { CREATE_PROJECT_SAGA, DELETE_PROJECT_SAGA, GET_ALL_PRIORITY, GET_ALL_PRIORITY_SAGA, GET_ALL_PROJECT_SAGA, GET_ALL_TASK_TYPE, GET_ALL_TASK_TYPE_SAGA, GET_PROJECT_DETAIL, GET_PROJECT_DETAIL_SAGA, UPDATE_PROJECT_SAGA } from '../../constants/Cyberbugs/CyberbugsConst';
 import { DISPLAY_LOADING, HIDE_LOADING } from './../../constants/LoadingConst';
 import { openNotificationWithIcon } from './../../../util/Notification/NotificationCyberbugs';
+import cyberbugsService from './../../../services/CyberbugsService';
 
 function * createProjectSaga(action) {
     yield put({
@@ -101,4 +101,73 @@ function * deleteProjectSaga(action) {
 
 export function * theoDoiDeleteProjectSaga() {
     yield takeLatest(DELETE_PROJECT_SAGA, deleteProjectSaga);
+}
+
+// Saga dung de lay detail project theo id tu api
+// DoanCD = Code ngay 23/08/2022
+function * getProjectDetailSaga(action) {
+    yield put({
+        type: DISPLAY_LOADING
+    })
+    yield delay(500);
+    try {
+        const {data, status} = yield call(() => cyberbugsService.getProjectDetail(action.projectId));
+        if(status === STATUS_CODE.SUCCESS) {
+            yield put({
+                type: GET_PROJECT_DETAIL,
+                projectDetail: data.content
+            })
+        }
+    } catch(err) {
+        console.log(err);
+        let navigate = yield select(state => state.HistoryReducer.navigate);
+        navigate('/projectmanagement');
+    }
+    yield put({
+        type: HIDE_LOADING
+    })
+}
+
+export function * theoDoiGetProjectDetailSaga() {
+    yield takeLatest(GET_PROJECT_DETAIL_SAGA, getProjectDetailSaga);
+}
+
+// Saga dung de lay all task type tu api
+// DoanCD = Code ngay 24/08/2022
+function * getAllTaskTypeSaga() {
+    try {
+        const {data, status} = yield call(() => cyberbugsService.getAllTaskType());
+        if(status === STATUS_CODE.SUCCESS) {
+            yield put({
+                type: GET_ALL_TASK_TYPE,
+                arrTaskType: data.content
+            })
+        }
+    } catch(err) {
+        console.log(err);
+    }
+}
+
+export function * theoDoiGetAllTaskTypeSaga() {
+    yield takeLatest(GET_ALL_TASK_TYPE_SAGA, getAllTaskTypeSaga);
+}
+
+// Saga dung de lay all priority tu api
+// DoanCD = Code ngay 24/08/2022
+function * getAllPrioritySaga() {
+    try {
+        const {data, status} = yield call(() => cyberbugsService.getAllPriority());
+        if(status === STATUS_CODE.SUCCESS) {
+            yield put({
+                type: GET_ALL_PRIORITY,
+                arrPriority: data.content
+            })
+        }
+    } catch(err) {
+        console.log(err);
+    }
+}
+
+export function * theoDoiGetAllPrioritySaga() {
+    yield takeLatest(GET_ALL_PRIORITY_SAGA, getAllPrioritySaga);
 }

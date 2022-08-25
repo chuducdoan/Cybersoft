@@ -12,7 +12,6 @@ function HeaderMain() {
                     </ol>
                 </nav>
             </div>
-            <h3>Cyber Board</h3>
         </div>
      );
 }

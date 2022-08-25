@@ -39,7 +39,7 @@ function FormEditProject({values, handleChange, setFieldValue}) {
     return ( 
         <form className="contaier" onSubmit={submitForm}> 
             <div className="row">
-            <div className="col-4">
+                <div className="col-4">
                     <div className="form-group">
                         <p className="font-weight-bold">Project id</p>
                         <input disabled className="form-control" name="id" value={values.id}/>

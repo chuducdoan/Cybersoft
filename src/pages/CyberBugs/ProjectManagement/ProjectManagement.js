@@ -1,20 +1,23 @@
 import { Button, Input, Space, Table, Tag, AutoComplete, Popover, Popconfirm, Avatar, Image } from 'antd';
 import { useRef, useState, useEffect } from 'react';
-import { SearchOutlined,DeleteOutlined, EditOutlined } from '@ant-design/icons';
+import { SearchOutlined,DeleteOutlined, EditOutlined, CloseOutlined } from '@ant-design/icons';
 import Highlighter from 'react-highlight-words';
 import HtmlReactParser from 'html-react-parser';
 import { useSelector, useDispatch } from 'react-redux';
-import { DELETE_PROJECT_SAGA, EDIT_PROJECT, GET_ALL_PROJECT_SAGA } from '../../../redux/constants/Cyberbugs/CyberbugsConst';
+import { ASSIGN_USER_PROJECT_SAGA, DELETE_PROJECT_SAGA, DELETE_USER_FROM_PROJECT_SAGA, EDIT_PROJECT, GET_ALL_PROJECT_SAGA } from '../../../redux/constants/Cyberbugs/CyberbugsConst';
 import { OPEN_DRAWER, GET_USER_SAGA } from './../../../redux/constants/Cyberbugs/CyberbugsConst';
 import FormEditProject from '../../../components/Forms/FormEditProject/FormEditProject';
+import { NavLink } from 'react-router-dom';
 
 function ProjectManagement() {
     const projectList = useSelector(state => state.ProjectReducer.projectList);
     const userSearch = useSelector(state => state.UserCyberBugReducer.userSearch);
     const [searchText, setSearchText] = useState('');
     const [searchedColumn, setSearchedColumn] = useState('');
+    const [value, setValue] = useState('');
     const searchInput = useRef(null);
     const dispatch = useDispatch();
+    const searchRef = useRef();
 
     useEffect(() => {
         dispatch({
@@ -149,6 +152,9 @@ function ProjectManagement() {
             }
             return 1;
           },
+          render: (text, record, index) => {
+            return <NavLink to={`/projectDetail/${record.id}`}>{record.projectName}</NavLink>
+          }
         },
         // {
         //   title: 'description',
@@ -202,7 +208,38 @@ function ProjectManagement() {
           render: (text, record, index) => {
             return <div>
               {record.members?.slice(0,2).map((value, index) => {
-              return  <Avatar key={index} src={<Image src={value.avatar} style={{ width: 32 }} />} />
+              return <Popover key={index} placement='top' title="Member" content={() => {
+                return <table className='table'>
+                  <thead>
+                    <tr>
+                      <th>Id</th>
+                      <th>Avatar</th>
+                      <th>Name</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {record.members?.map((item, index) => (
+                      <tr key={index}>
+                        <td>{item.userId}</td>
+                        <td><img src={item.avatar} width="30" height="30" style={{borderRadius: "15px"}}/></td>
+                        <td>{item.name}</td>
+                        <td><Button danger shape="circle" icon={<CloseOutlined />} onClick={() => {
+                          dispatch({
+                            type: DELETE_USER_FROM_PROJECT_SAGA,
+                            userProject: {
+                              "projectId": record.id,
+                              "userId": item.userId
+                            }
+                          })
+                        }}/></td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              }}>
+                <Avatar key={index} src={value.avatar} style={{ width: 32 }} />
+              </Popover>
               })}
 
               {record.members?.length > 2 ? <Avatar>...</Avatar> : ''}
@@ -211,21 +248,37 @@ function ProjectManagement() {
                 return <AutoComplete 
                 style={{width: '100%'}} 
                 options={ userSearch?.map((user, index) => {
-                  return {label: user.name, value: user.userId}
+                  return {label: user.name, value: user.userId.toString()}
                 })}
                 onSearch={(value) => {
-                  dispatch({
-                    type: GET_USER_SAGA,
-                    keyword: value
-                  })
+                  if (searchRef.current) {
+                    clearTimeout(searchRef.current)
+                  }
+                  searchRef.current = setTimeout(() => {
+                    dispatch({
+                      type: GET_USER_SAGA,
+                      keyword: value
+                    })
+                  }, 500)
                 }} 
-                onSelect={(value, option) => {
-                  console.log('userId', value)
-                  console.log('option', option)
+                onChange={(text) => {
+                  setValue(text)
                 }}
+                onSelect={(valueSelect, option) => {
+                  setValue(option.label)
+                  dispatch({
+                    type: ASSIGN_USER_PROJECT_SAGA,
+                    userProject: {
+                      "projectId": record.id,
+                      "userId": valueSelect
+                    }
+                  })
+                  setValue('')
+                }}
+                value={value}
                 />
               }} trigger="click">
-                <Button type="primary" shape="circle">+</Button>
+                <Button shape="circle">+</Button>
               </Popover>
             </div>
           }
@@ -240,7 +293,8 @@ function ProjectManagement() {
                   <button className='btn mr-2 btn-primary' onClick={() => {
                     dispatch({
                       type: OPEN_DRAWER,
-                      Component: <FormEditProject/>
+                      Component: <FormEditProject/>,
+                      title: 'Edit project'
                     })
                     dispatch({
                       type: EDIT_PROJECT,

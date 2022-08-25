@@ -2,7 +2,6 @@ import { Editor } from '@tinymce/tinymce-react';
 import {memo} from 'react';
 
 function EditorComp({handleChangeEdit, initialValue}) {
-    console.log(initialValue)
     return ( 
         <Editor
             name="description"

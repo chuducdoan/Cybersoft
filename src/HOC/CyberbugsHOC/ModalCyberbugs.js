@@ -1,7 +1,6 @@
-import { PlusOutlined } from '@ant-design/icons';
-import { Button, Col, DatePicker, Drawer, Form, Input, Row, Select, Space } from 'antd';
-import React, { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { Button, Drawer, Select, Space } from 'antd';
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { CLOSE_DRAWER } from '../../redux/constants/Cyberbugs/CyberbugsConst';
 const { Option } = Select;
 
@@ -9,7 +8,7 @@ function ModalCyberbugs() {
 
     const dispatch = useDispatch();
 
-    const {visible, ComponentContentDrawer, callBackSubmit} = useSelector(state => state.DrawerCyberbugReducer);
+    const {visible, ComponentContentDrawer, callBackSubmit, title} = useSelector(state => state.DrawerCyberbugReducer);
 
     const onClose = () => {
         dispatch({
@@ -20,7 +19,7 @@ function ModalCyberbugs() {
     return ( 
         <>
       <Drawer
-        title="Create a new account"
+        title={title}
         width={720}
         onClose={onClose}
         visible={visible}

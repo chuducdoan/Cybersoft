@@ -26,11 +26,16 @@ export function * rootSaga() {
         ToDoListSaga.theoDoiActionRejectTaskApi(),
         Cyberbus.theoDoiSignin(),
         Cyberbus.theoDoiGetUserSaga(),
+        Cyberbus.theoDoiAssignUserProjectSaga(),
+        Cyberbus.theoDoiDeleteUserFromProjectSaga(),
         CreateProjectSaga.theoDoiGetAllProjectCategory(),
         ProjectSaga.theoDoiCreateProjectSaga(),
         ProjectSaga.theoDoiGetAllProjectSaga(),
         ProjectSaga.theoDoiUpdateProjectSaga(),
-        ProjectSaga.theoDoiDeleteProjectSaga()
+        ProjectSaga.theoDoiDeleteProjectSaga(),
+        ProjectSaga.theoDoiGetProjectDetailSaga(),
+        ProjectSaga.theoDoiGetAllTaskTypeSaga(),
+        ProjectSaga.theoDoiGetAllPrioritySaga()
     ])
 
 }

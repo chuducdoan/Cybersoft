@@ -1,5 +1,5 @@
 import { call, delay, put, takeLatest, select } from 'redux-saga/effects';
-import { GET_USER_SAGA, GET_USER_SEARCH, USER_SIGNIN_API, USLOGIN } from './../../constants/Cyberbugs/CyberbugsConst';
+import { ASSIGN_USER_PROJECT_SAGA, DELETE_USER_FROM_PROJECT_SAGA, GET_ALL_PROJECT_SAGA, GET_USER_SAGA, GET_USER_SEARCH, USER_SIGNIN_API, USLOGIN } from './../../constants/Cyberbugs/CyberbugsConst';
 import cyberbugsService from './../../../services/CyberbugsService';
 import { DISPLAY_LOADING, HIDE_LOADING } from './../../constants/LoadingConst';
 import { TOKEN, USER_LOGIN } from '../../../util/constants/settingSystem';
@@ -57,3 +57,43 @@ function * getUserSaga(action) {
 export function * theoDoiGetUserSaga() {
     yield takeLatest(GET_USER_SAGA, getUserSaga);
 }
+
+//  Saga them user vao project tu api
+//  DoanCD - Code ngay 23/8/2022
+function * assignUserProjectSaga(action) {
+    try {
+        const {data, status} = yield call(() => userService.assignUserProject(action.userProject));
+        if(status === STATUS_CODE.SUCCESS) {
+            yield put({
+                type: GET_ALL_PROJECT_SAGA
+            })
+        }
+    } catch(err) {
+        console.log(err);
+    }
+}
+
+export function * theoDoiAssignUserProjectSaga() {
+    yield takeLatest(ASSIGN_USER_PROJECT_SAGA, assignUserProjectSaga);
+}
+
+//  Saga user khoi project tu api
+//  DoanCD - Code ngay 23/8/2022
+function * deleteUserFromProjectSaga(action) {
+    try {
+        const {data, status} = yield call(() => cyberbugsService.deleteUserFromProject(action.userProject));
+        if(status === STATUS_CODE.SUCCESS) {
+            console.log(data)
+            yield put({
+                type: GET_ALL_PROJECT_SAGA
+            })
+        }
+    } catch(err) {
+        console.log(err);
+    }
+}
+
+export function * theoDoiDeleteUserFromProjectSaga() {
+    yield takeLatest(DELETE_USER_FROM_PROJECT_SAGA, deleteUserFromProjectSaga);
+}
+

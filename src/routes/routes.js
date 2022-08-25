@@ -18,4 +18,6 @@ export const publicRoutes = [
     {path: '/login', component: Login, template: 'abc'},
     {path: '/logincyberbugs', component: LoginCyberBugs, template: 'abc'},
     {path: '/test', component: ModalCyberbugs},
+    {path: '/projectDetail/:projectId', component: HomeCyberBug},
+    {path: '/', component: ProjectManagement}
 ]
